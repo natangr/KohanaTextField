@@ -79,8 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :path => '.' }
-  # s.source       = { :git => "http://github.com/natangr/KohanaTextField.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/natangr/KohanaTextField.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
