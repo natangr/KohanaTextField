@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "KohanaTextField"
-  s.version      = "1.0.1"
+  s.version      = "1.1.0"
   s.summary      = "A TextField UIView with the Kohana animation."
 
   # This description is used to generate tags and improve search results.
@@ -79,6 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
+  # s.source       = { :path => '.' }
   s.source       = { :git => "https://github.com/natangr/KohanaTextField.git", :tag => "#{s.version}" }
 
 

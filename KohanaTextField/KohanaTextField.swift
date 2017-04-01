@@ -14,6 +14,8 @@ public class KohanaTextField: UIView {
     private var imageView: UIImageView?
     private var placeholderLabel: UILabel?
     private var textField: UITextField?
+    private var toggleSecureTextButton: UIButton?
+    
     public var textFieldDelegate: UITextFieldDelegate?
     
     fileprivate var placeholderVisible: Bool = true {
@@ -21,6 +23,13 @@ public class KohanaTextField: UIView {
             if placeholderVisible != newValue {
                 newValue ? showPlaceholder(animated: true) : hidePlaceholder(animated: true)
             }
+        }
+    }
+    
+    @IBInspectable
+    public var image: UIImage? {
+        didSet {
+            imageView?.image = image
         }
     }
     
@@ -40,23 +49,23 @@ public class KohanaTextField: UIView {
     }
     
     @IBInspectable
-    public var placeholder: String? {
-        didSet {
-            placeholderLabel?.text = placeholder
-        }
-    }
-    
-    @IBInspectable
-    public var image: UIImage? {
-        didSet {
-            imageView?.image = image
-        }
-    }
-    
-    @IBInspectable
     public var textColor: UIColor = UIColor(red: 75/255, green: 68/255, blue: 54/255, alpha: 1) {
         didSet {
             textField?.textColor = textColor
+        }
+    }
+    
+    @IBInspectable
+    public var textFontSize: CGFloat = 15 {
+        didSet {
+            textField?.font = UIFont.systemFont(ofSize: textFontSize)
+        }
+    }
+    
+    @IBInspectable
+    public var placeholder: String? {
+        didSet {
+            placeholderLabel?.text = placeholder
         }
     }
     
@@ -67,6 +76,12 @@ public class KohanaTextField: UIView {
         }
     }
     
+    @IBInspectable
+    public var placeholderTextFontSize: CGFloat = 15 {
+        didSet {
+            placeholderLabel?.font = UIFont.systemFont(ofSize: placeholderTextFontSize)
+        }
+    }
     
     @IBInspectable
     public var borderColor: UIColor = UIColor(red: 233/255, green: 232/255, blue: 229/255, alpha: 1) {
@@ -82,6 +97,41 @@ public class KohanaTextField: UIView {
         }
     }
     
+    @IBInspectable
+    public var isSecureTextEntry: Bool = false {
+        didSet {
+            textField?.isSecureTextEntry = isSecureTextEntry
+            
+            let title = isSecureTextEntry ? showText : hideText
+            toggleSecureTextButton?.setTitle(title, for: .normal)
+            setNeedsLayout()
+        }
+    }
+    
+    @IBInspectable
+    public var toggleSecureTextButtonVisible: Bool = false {
+        didSet {
+            if toggleSecureTextButtonVisible {
+                initToggleSecureTextButton()
+            } else {
+                toggleSecureTextButton?.removeFromSuperview()
+            }
+        }
+    }
+    
+    @IBInspectable
+    public var toggleSecureTextButtonFontSize: CGFloat = 10 {
+        didSet {
+            toggleSecureTextButton?.titleLabel?.font = UIFont.systemFont(ofSize: toggleSecureTextButtonFontSize)
+        }
+    }
+    
+    @IBInspectable
+    public var showText: String = "SHOW"
+    
+    @IBInspectable
+    public var hideText: String = "HIDE"
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -95,8 +145,23 @@ public class KohanaTextField: UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
         
-        let rect = CGRect(x: 12, y: bounds.height/2 - 10, width: bounds.width - 24, height: 20)
-        placeholderLabel?.frame = rect
+        let placeholderRect = CGRect(x: 12, y: bounds.height/2 - 10, width: bounds.width - 24, height: 20)
+        placeholderLabel?.frame = placeholderRect
+        
+        let imageViewRect = CGRect(x: 12, y: bounds.height/2 - 10, width: 20, height: 20)
+        imageView?.frame = imageViewRect
+        
+        if toggleSecureTextButtonVisible {
+            toggleSecureTextButton?.sizeToFit()
+            let buttonWidth = toggleSecureTextButton?.bounds.width ?? 0
+            let buttonRect = CGRect(x: bounds.width - buttonWidth - 12, y: 0, width: buttonWidth, height: bounds.height)
+            toggleSecureTextButton?.frame = buttonRect
+            let textFieldRect = CGRect(x: 44, y: 0, width: bounds.width - 68 - buttonWidth, height: bounds.height)
+            textField?.frame = textFieldRect
+        } else {
+            let textFieldRect = CGRect(x: 44, y: 0, width: bounds.width - 56, height: bounds.height)
+            textField?.frame = textFieldRect
+        }
     }
     
     private func commonInit() {
@@ -109,11 +174,10 @@ public class KohanaTextField: UIView {
     }
     
     private func initImageView() {
-        let rect = CGRect(x: -20, y: bounds.height/2 - 10, width: 20, height: 20)
+        let rect = CGRect(x: 12, y: bounds.height/2 - 10, width: 20, height: 20)
         imageView = UIImageView(frame: rect)
         imageView?.alpha = 0
         addSubview(imageView!)
-        
     }
     
     private func initPlaceholderLabel() {
@@ -129,6 +193,18 @@ public class KohanaTextField: UIView {
         textField?.alpha = 0
         textField?.textColor = UIColor(red: 75/255, green: 68/255, blue: 54/255, alpha: 1)
         addSubview(textField!)
+    }
+    
+    private func initToggleSecureTextButton() {
+        let rect = CGRect(x: 44, y: 0, width: bounds.width - 56, height: bounds.height)
+        toggleSecureTextButton = UIButton(frame: rect)
+        toggleSecureTextButton?.alpha = 0
+        toggleSecureTextButton?.setTitleColor(UIColor(red: 75/255, green: 68/255, blue: 54/255, alpha: 1), for: .normal)
+        let title = isSecureTextEntry ? showText : hideText
+        toggleSecureTextButton?.setTitle(title, for: .normal)
+        toggleSecureTextButton?.addTarget(self, action: #selector(showSecureTextClicked), for: .touchUpInside)
+        toggleSecureTextButton?.titleLabel?.font = UIFont.systemFont(ofSize: toggleSecureTextButtonFontSize)
+        addSubview(toggleSecureTextButton!)
     }
     
     private func addClickRecognizer() {
@@ -151,6 +227,7 @@ public class KohanaTextField: UIView {
             self.imageView?.alpha = 0
             self.imageView?.frame.origin.x = -20
             self.textField?.alpha = 0
+            self.toggleSecureTextButton?.alpha = 0
             self.placeholderLabel?.frame.origin.x = 12
             self.placeholderLabel?.alpha = 1
         }
@@ -167,7 +244,12 @@ public class KohanaTextField: UIView {
             self.imageView?.frame.origin.x = 12
             self.imageView?.alpha = 1
             self.textField?.alpha = 1
+            self.toggleSecureTextButton?.alpha = 1
         }
+    }
+    
+    func showSecureTextClicked() {
+        isSecureTextEntry = !isSecureTextEntry
     }
     
     func requestFocus() {
