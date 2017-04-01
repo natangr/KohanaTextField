@@ -5,6 +5,14 @@ This is an iOS library that implements the Kohana Text Field animation.
 
 ![Animation](Images/animation.gif)
 
+## How to use
+### Storyboard
+Create an UIView on your storyboard and set the view's class as KohanaTextField.
+On the attribute inspector you will have access to several configurable fields.
+
+![Attribute Inspector](Images/attribute_inspector.png)
+
+## Installation
 To install this element, add the following line to your podfile:
 ```
 pod 'KohanaTextField'
