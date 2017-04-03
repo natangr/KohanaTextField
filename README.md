@@ -17,3 +17,11 @@ To install this element, add the following line to your podfile:
 ```
 pod 'KohanaTextField'
 ```
+
+## Credits
+[Natan Grando (natangr)](https://github.com/natangr) - Mobile Developer ([LinkedIn](https://www.linkedin.com/in/natan-grando-36820397))
+
+**Thank you for your contributions:**
+
+Thais Nolasco
+* Design specs
