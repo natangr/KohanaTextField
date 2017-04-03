@@ -23,5 +23,5 @@ pod 'KohanaTextField'
 
 **Thank you for your contributions:**
 
-Thais Nolasco
+[Thais Nolasco (thaisns)](https://github.com/thaisns)
 * Design specs
