@@ -252,8 +252,8 @@ public class KohanaTextField: UIView {
         isSecureTextEntry = !isSecureTextEntry
     }
     
-    func requestFocus() {
-        textField?.becomeFirstResponder()
+    override func becomeFirstResponder() -> Bool {
+        return textField?.becomeFirstResponder() ?? false
     }
 }
 
