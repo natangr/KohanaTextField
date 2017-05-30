@@ -13,7 +13,7 @@ public class KohanaTextField: UIView {
     
     private var imageView: UIImageView?
     private var placeholderLabel: UILabel?
-    private var textField: UITextField?
+    public var textField: UITextField?
     private var toggleSecureTextButton: UIButton?
     
     public var textFieldDelegate: UITextFieldDelegate?
