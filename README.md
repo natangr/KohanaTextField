@@ -19,7 +19,7 @@ pod 'KohanaTextField'
 ```
 
 ## Credits
-[Natan Grando (natangr)](https://github.com/natangr) - Mobile Developer ([LinkedIn](https://www.linkedin.com/in/natan-grando-36820397))
+[Natan Grando (natangr)](https://github.com/natangr)
 
 **Thank you for your contributions:**
 
